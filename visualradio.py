@@ -1,4 +1,6 @@
 from player import player
+from exceptions import exception
+from voditelj import voditelj
 import pyinotify
 
 class FileWatcher:
@@ -21,7 +23,10 @@ class EventProcessor(pyinotify.ProcessEvent):
         self.event_callback = callback
 
     def process_IN_CLOSE_WRITE(self, event):
+
         player()
+        exception()
+        voditelj()
         print('in close_Write')
 
 f = FileWatcher()

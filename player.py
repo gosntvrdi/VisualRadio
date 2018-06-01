@@ -6,9 +6,10 @@ import re
 import os
 import subprocess, signal
 
-file = 'NowOnAir/NowOnAir.txt'
+
 
 def player():
+    file = 'NowOnAir/NowOnAir.txt'
     NowOnAir = open(file).readline()
     NowOnAir = NowOnAir[7:]
     with open('NowOnAir/NowOnAirOBS.txt', 'w') as NowOnAirOBS:
