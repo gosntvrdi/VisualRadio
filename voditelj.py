@@ -21,7 +21,7 @@ def voditelj():
         text = ('S vama su Daniel Bilić i Lucija Čeč')
     else:
         text = 'S vama je ' + voditelj
-    upravoSVamaTekst = open((os.path.join(dirname, 'NowOnAir/upravoSVama.txt')), 'w')
+    upravoSVamaTekst = open((os.path.join(dirname, 'upravoSVama.txt')), 'w')
     upravoSVamaTekst.write(text)
     print (voditelj)
 

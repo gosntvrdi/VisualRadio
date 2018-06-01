@@ -8,11 +8,12 @@ import subprocess, signal
 
 dirname = os.path.dirname(__file__)
 
+
 def player():
     file = os.path.join(dirname, 'NowOnAir/NowOnAir.txt')
     NowOnAir = open(file).readline()
     NowOnAir = NowOnAir[7:]
-    NowOnAirOBS = open((os.path.join(dirname, 'NowOnAir/NowOnAirOBS.txt')), 'w')
+    NowOnAirOBS = open((os.path.join(dirname, 'NowOnAirOBS.txt')), 'w')
     NowOnAirOBS.write(NowOnAir)
     p = subprocess.Popen(['ps', '-A'], stdout=subprocess.PIPE)
     out, err = p.communicate()
@@ -28,5 +29,5 @@ def player():
     videoPafy = pafy.new(link)
     best = videoPafy.getbestvideo()
     videompv = best.url
-    print (best.resolution)
+    print(best.resolution)
     subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', videompv])
