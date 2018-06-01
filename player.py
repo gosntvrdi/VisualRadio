@@ -6,14 +6,14 @@ import re
 import os
 import subprocess, signal
 
-
+dirname = os.path.dirname(__file__)
 
 def player():
-    file = 'NowOnAir/NowOnAir.txt'
+    file = os.path.join(dirname, 'NowOnAir/NowOnAir.txt')
     NowOnAir = open(file).readline()
     NowOnAir = NowOnAir[7:]
-    with open('NowOnAir/NowOnAirOBS.txt', 'w') as NowOnAirOBS:
-        NowOnAirOBS.write(NowOnAir)
+    NowOnAirOBS = open((os.path.join(dirname, 'NowOnAir/NowOnAirOBS.txt')), 'w')
+    NowOnAirOBS.write(NowOnAir)
     p = subprocess.Popen(['ps', '-A'], stdout=subprocess.PIPE)
     out, err = p.communicate()
     out = out.decode('utf-8')
