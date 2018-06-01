@@ -1,8 +1,11 @@
 import subprocess, signal
 import os
+from typing import Union
+
 
 def exception() -> object:
-    file = 'NowOnAir/NowOnAir.txt'
+    dirname = os.path.dirname(__file__)
+    file = os.path.join(dirname, 'NowOnAir/NowOnAir.txt')  
     word = 'TE'
     exceptions = [word, 'VIJESTI', 'Vijesti', 'BUSINESS AS USUAL', 'SELO MOJE MALO', 'Selo moje malo',
                   'KULTURNI SKALPEL', 'SKOLICA', 'TRANSVERZALA', 'AFTERSHOCK', 'PREGLED', 'RADIOAKTIVITET',
