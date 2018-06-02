@@ -28,20 +28,18 @@ def player():
         if 'vlc' in line:
             pid = int(line.split(None, 1)[0])
             os.kill(pid, signal.SIGKILL)
-    for x in NowOnAirException:
-        if x in exceptions:
-            print('exception ' + x)
-            break
-        else:
-            query_string = urllib.parse.urlencode({"search_query": NowOnAir})
-            html_content = urllib.request.urlopen("http://www.youtube.com/results?" + query_string)
-            search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())
-            link = ('http://www.youtube.com/watch?v=' + search_results[0])
-            videoPafy = pafy.new(link)
-            best = videoPafy.getbestvideo()
-            videompv = best.url
-            print(best.resolution)
-            subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', videompv])
+    if any(x in NowOnAirException for x in exceptions):
+        print('exception')
+    else:
+        query_string = urllib.parse.urlencode({"search_query": NowOnAir})
+        html_content = urllib.request.urlopen("http://www.youtube.com/results?" + query_string)
+        search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())
+        link = ('http://www.youtube.com/watch?v=' + search_results[0])
+        videoPafy = pafy.new(link)
+        best = videoPafy.getbestvideo()
+        videompv = best.url
+        print(best.resolution)
+        subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', videompv])
 
 
-player()
+#player()

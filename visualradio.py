@@ -1,6 +1,4 @@
-#from player import player
-#from exceptions import exception
-from scratch import player
+from player import player
 from voditelj import voditelj
 import pyinotify
 import os
