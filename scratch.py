@@ -1,50 +1,45 @@
-import time
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
-from watchdog.events import PatternMatchingEventHandler
-from player import player
-from voditelj import voditelj
-from exceptions import exception
+import os.path
+import pafy
+import urllib.request
+import urllib.parse
+import re
+import os
+import subprocess, signal
 
-class Watcher:
-    DIRECTORY_TO_WATCH = "NowOnAir"
+dirname = os.path.dirname(__file__)
+word = 'TE'
+exceptions = [word, 'VIJESTI', 'Vijesti', 'BUSINESS AS USUAL', 'SELO MOJE MALO', 'Selo moje malo',
+                  'KULTURNI SKALPEL', 'SKOLICA', 'TRANSVERZALA', 'AFTERSHOCK', 'PREGLED', 'RADIOAKTIVITET',
+                  'KURIKULUM', 'LUNAROV', 'GRADSKE']
 
-    def __init__(self):
-        self.observer = Observer()
+def player():
+    file = os.path.join(dirname, 'NowOnAir/NowOnAir.txt')
+    NowOnAir = open(file).readline()
+    NowOnAir = NowOnAir[7:]
+    NowOnAirOBS = open((os.path.join(dirname, 'NowOnAirOBS.txt')), 'w')
+    NowOnAirOBS.write(NowOnAir)
+    p = subprocess.Popen(['ps', '-A'], stdout=subprocess.PIPE)
+    out, err = p.communicate()
+    out = out.decode('utf-8')
+    for line in out.splitlines():
+        if 'vlc' in line:
+            pid = int(line.split(None, 1)[0])
+            os.kill(pid, signal.SIGKILL)
+    for x in NowOnAir:
+        if x in exceptions:
+            print('exception ' + x)
+            exit
+        else:
+            print ('not in exception')
+            continue
+    query_string = urllib.parse.urlencode({"search_query": NowOnAir})
+    html_content = urllib.request.urlopen("http://www.youtube.com/results?" + query_string)
+    search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())
+    link = ('http://www.youtube.com/watch?v=' + search_results[0])
+    videoPafy = pafy.new(link)
+    best = videoPafy.getbestvideo()
+    videompv = best.url
+    print(best.resolution)
+    subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', videompv])
 
-    def run(self):
-        event_handler = Handler()
-        self.observer.schedule(event_handler, self.DIRECTORY_TO_WATCH, recursive=True)
-        self.observer.start()
-        try:
-            while True:
-                time.sleep(5)
-        except:
-            self.observer.stop()
-            print ("Error")
-
-        self.observer.join()
-
-
-class Handler(FileSystemEventHandler):
-
-    @staticmethod
-    def on_any_event(event):
-        if event.is_directory:
-            return None
-
-        elif event.event_type == 'created':
-            # Take any action here when a file is first created.
-            print ("Received created event - %s.")
-
-        elif event.event_type == 'modified':
-            # Taken any action here when a file is modified.
-            print ("Received modified event ")
-            player()
-            exception()
-            voditelj()
-
-
-if __name__ == '__main__':
-    w = Watcher()
-    w.run()
+player()

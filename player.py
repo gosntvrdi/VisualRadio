@@ -7,7 +7,10 @@ import os
 import subprocess, signal
 
 dirname = os.path.dirname(__file__)
-
+word = 'TE'
+exceptions = [word, 'VIJESTI', 'Vijesti', 'BUSINESS AS USUAL', 'SELO MOJE MALO', 'Selo moje malo',
+                  'KULTURNI SKALPEL', 'SKOLICA', 'TRANSVERZALA', 'AFTERSHOCK', 'PREGLED', 'RADIOAKTIVITET',
+                  'KURIKULUM', 'LUNAROV', 'GRADSKE']
 
 def player():
     file = os.path.join(dirname, 'NowOnAir/NowOnAir.txt')
@@ -22,6 +25,13 @@ def player():
         if 'vlc' in line:
             pid = int(line.split(None, 1)[0])
             os.kill(pid, signal.SIGKILL)
+    for x in NowOnAir:
+        if x in exceptions:
+            print('exception ' + x)
+            exit
+        else:
+            print ('not in exception')
+            continue
     query_string = urllib.parse.urlencode({"search_query": NowOnAir})
     html_content = urllib.request.urlopen("http://www.youtube.com/results?" + query_string)
     search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())

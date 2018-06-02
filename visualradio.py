@@ -2,32 +2,20 @@ from player import player
 from exceptions import exception
 from voditelj import voditelj
 import pyinotify
+import os
 
-class FileWatcher:
-    notifier = None
+dirname = os.path.dirname(__file__)
+file = os.path.join(dirname, 'NowOnAir/NowOnAir.txt')
 
-    def start_watch(self, dir, callback):
-        wm = pyinotify.WatchManager()
-        self.notifier = pyinotify.Notifier(wm, EventProcessor(callback))
-        mask = (pyinotify.IN_CREATE | pyinotify.IN_MODIFY | pyinotify.IN_DELETE
-                | pyinotify.IN_DELETE_SELF | pyinotify.IN_MOVED_FROM | pyinotify.IN_CLOSE_WRITE
-                | pyinotify.IN_MOVED_TO)
-        wdd = wm.add_watch(dir, mask, rec=True)
-        while True:
-            self.notifier.process_events()
-            if self.notifier.check_events():
-                self.notifier.read_events()
-
-class EventProcessor(pyinotify.ProcessEvent):
-    def __init__(self, callback):
-        self.event_callback = callback
-
-    def process_IN_CLOSE_WRITE(self, event):
-
+class ModHandler(pyinotify.ProcessEvent):
+    def process_IN_MODIFY(self, evt):
         player()
-        exception()
         voditelj()
         print('in close_Write')
 
-f = FileWatcher()
-f.start_watch(r'NowOnAir/NowOnAir.txt/', None)
+
+handler = ModHandler()
+wm = pyinotify.WatchManager()
+notifier = pyinotify.Notifier(wm, handler)
+wdd = wm.add_watch(file, pyinotify.IN_MODIFY)
+notifier.loop()
