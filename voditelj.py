@@ -16,7 +16,7 @@ def voditelj():
     os.chdir(path)
     fotka = random.choice(os.listdir(path))
     im = Image.open(fotka)
-    im.save(os.path.join(dirname, 'images/photos/fotka.png'))
+    im.save(os.path.join(dirname, 'images/fotka.png'))
     if voditelj == 'Daniel Bilić':
         text = ('S vama su Daniel Bilić i Lucija Čeč')
     else:

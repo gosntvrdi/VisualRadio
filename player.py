@@ -12,7 +12,7 @@ def player():
     dirname = os.path.dirname(__file__)
     exceptions = ['TE', 'VIJESTI', 'Vijesti', 'BUSINESS AS USUAL', 'SELO MOJE MALO', 'Selo moje malo',
                   'KULTURNI SKALPEL', 'SKOLICA', 'TRANSVERZALA', 'AFTERSHOCK', 'PREGLED', 'RADIOAKTIVITET',
-                  'KURIKULUM', 'LUNAROV', 'GRADSKE']
+                  'KURIKULUM', 'LUNAROV', 'GRADSKE', 'BREAKOUT']
 
     file = os.path.join(dirname, 'NowOnAir/NowOnAir.txt')
     NowOnAir = open(file).readline()
