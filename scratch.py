@@ -19,10 +19,13 @@ def artwork():
         path = os.path.join(dirname, 'images/photos/NOVINARI')
         os.chdir(path)
         fotka = random.choice(os.listdir(path))
-        im = Image.open(fotka)
+        try:
+            im = Image.open(fotka)
+        except:
+            im = Image.open('images/NOVINARI/yammat studio_02.jpg')
         im.save(os.path.join(dirname, 'images/fotka.png'))
     else:
-        call(['sacad', '-vdebug', NowOnAir, '', '1920', 'images/albumart.jpg'])
+        call(['sacad', '-vdebug', NowOnAir, '', '1920', 'images/fotka.png'])
 
 
 

@@ -10,10 +10,10 @@ import subprocess, signal
 
 def player():
     dirname = os.path.dirname(__file__)
-    exceptions = ['TE', 'VIJESTI', 'Vijesti', 'BUSINESS AS USUAL', 'SELO MOJE MALO', 'Selo moje malo',
+    exceptions = ['VIJESTI', 'Vijesti', 'BUSINESS AS USUAL', 'SELO MOJE MALO', 'Selo moje malo',
                   'KULTURNI SKALPEL', 'SKOLICA', 'TRANSVERZALA', 'AFTERSHOCK', 'PREGLED', 'RADIOAKTIVITET',
                   'KURIKULUM', 'LUNAROV', 'GRADSKE', 'BREAKOUT']
-
+    DJTalk = ['TE']
     file = os.path.join(dirname, 'NowOnAir/NowOnAir.txt')
     NowOnAir = open(file).readline()
     NowOnAir = NowOnAir[7:]
@@ -30,16 +30,28 @@ def player():
             os.kill(pid, signal.SIGKILL)
     if any(x in NowOnAirException for x in exceptions):
         print('exception')
+        subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', (os.path.join(dirname, 'images/fotka.png'))])
+    elif any(x in NowOnAirException for x in DJTalk):
+        subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', 'rtsp://admin:Yammat.2016@192.168.150.99:554/Streaming/Channels/301'])
     else:
         query_string = urllib.parse.urlencode({"search_query": NowOnAir})
         html_content = urllib.request.urlopen("http://www.youtube.com/results?" + query_string)
         search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())
-        link = ('http://www.youtube.com/watch?v=' + search_results[0])
+        try:
+            link = ('http://www.youtube.com/watch?v=' + search_results[0])
+        except IndexError:
+            link = ('https://www.youtube.com/watch?v=l6A4qnAX5Gw')
         videoPafy = pafy.new(link)
         best = videoPafy.getbestvideo()
+        print(best)
         videompv = best.url
-        print(best.resolution)
         subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', videompv])
 
+#        if best.resolution > 1280x1024:
+#            videompv = best.url
+#            subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', videompv])
+#        else:
+#            subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', 'images/fotka.jpg'])
 
-#player()
+
+player()
