@@ -46,12 +46,11 @@ def player():
         videoPafy = pafy.new(link)
         best = videoPafy.getbestvideo()
         print(best)
-        videompv = best.url
-        subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', videompv])
+        if all(i >= 720 for i in best.dimensions):
+            videompv = best.url
+            subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', videompv])
+        else:
+            subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', 'images/fotka.png'])
 
-#        if best.resolution > 1280x1024:
-#            videompv = best.url
-#            subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', videompv])
-#        else:
-#            subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', 'images/fotka.jpg'])
+
 

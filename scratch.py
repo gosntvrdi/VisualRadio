@@ -25,8 +25,7 @@ def artwork():
             im = Image.open('images/NOVINARI/yammat studio_02.jpg')
         im.save(os.path.join(dirname, 'images/fotka.png'))
     else:
-        call(['sacad', '-vdebug', NowOnAir, '', '1920', 'images/fotka.png'])
+        call(['sacad', '-d', '-vdebug', NowOnAir, '', '1920', 'images/fotka.png'])
 
 
 
-artwork()
