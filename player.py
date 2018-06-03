@@ -30,9 +30,9 @@ def player():
             os.kill(pid, signal.SIGKILL)
     if any(x in NowOnAirException for x in exceptions):
         print('exception')
-        subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', (os.path.join(dirname, 'images/fotka.png'))])
-    elif any(x in NowOnAirException for x in DJTalk):
-        subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', 'rtsp://admin:Yammat.2016@192.168.150.99:554/Streaming/Channels/301'])
+ #       subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', (os.path.join(dirname, 'images/fotka.png'))])
+ #   elif any(x in NowOnAirException for x in DJTalk):
+ #       subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', 'rtsp://admin:Yammat.2016@192.168.150.99:554/Streaming/Channels/301'])
     else:
         query_string = urllib.parse.urlencode({"search_query": NowOnAir})
         html_content = urllib.request.urlopen("http://www.youtube.com/results?" + query_string)
