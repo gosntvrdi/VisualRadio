@@ -3,6 +3,7 @@ from voditelj import voditelj
 import pyinotify
 import os
 
+
 dirname = os.path.dirname(__file__)
 file = os.path.join(dirname, 'NowOnAir/NowOnAir.txt')
 

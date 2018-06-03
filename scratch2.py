@@ -11,9 +11,7 @@ dirname = os.path.dirname(__file__)
 file = os.path.join(dirname, 'NowOnAir/NowOnAir.txt')
 with open (file, 'rb') as f:
     NowOnAir = f.read()
-
 NowOnAir = NowOnAir[7:]
-
 query_string = urllib.parse.urlencode({"search_query": NowOnAir})
 html_content = urllib.request.urlopen("http://www.youtube.com/results?" + query_string)
 search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())

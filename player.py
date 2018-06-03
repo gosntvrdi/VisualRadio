@@ -5,6 +5,7 @@ import urllib.parse
 import re
 import os
 import subprocess, signal
+from artwork import artwork
 
 
 
@@ -50,6 +51,7 @@ def player():
             videompv = best.url
             subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', videompv])
         else:
+            artwork()
             subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', 'images/fotka.png'])
 
 
