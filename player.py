@@ -15,9 +15,11 @@ def player():
                   'KURIKULUM', 'LUNAROV', 'GRADSKE', 'BREAKOUT']
     DJTalk = ['TE']
     file = os.path.join(dirname, 'NowOnAir/NowOnAir.txt')
-    NowOnAir = open(file).readline()
+    with open (file, 'rb') as f:
+        NowOnAir = f.read()
+#    NowOnAir = open(file).readline()
     NowOnAir = NowOnAir[7:]
-    NowOnAirOBS = open((os.path.join(dirname, 'NowOnAirOBS.txt')), 'w')
+    NowOnAirOBS = open((os.path.join(dirname, 'NowOnAirOBS.txt')), 'wb')
     NowOnAirOBS.write(NowOnAir)
     NowOnAirException = open(file).readline()
     NowOnAirException = NowOnAir.split()
@@ -53,5 +55,3 @@ def player():
 #        else:
 #            subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', 'images/fotka.jpg'])
 
-
-player()
