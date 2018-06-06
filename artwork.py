@@ -12,6 +12,7 @@ def artwork():
     file = os.path.join(dirname, 'NowOnAir/NowOnAir.txt')
     NowOnAir = open(file).readline()
     NowOnAir = NowOnAir[7:]
+    print(NowOnAir)
     NowOnAirException = open(file).readline()
     NowOnAirException = NowOnAirException.split()
     if any(x in NowOnAirException for x in exceptions):
@@ -25,7 +26,5 @@ def artwork():
             im = Image.open('images/NOVINARI/yammat studio_02.jpg')
         im.save(os.path.join(dirname, 'images/fotka.png'))
     else:
-        call(['sacad', '-d', NowOnAir, '', '1920', 'images/fotka.png'])
-
-
+        call(['sacad', NowOnAir, '', '1920', '/home/videostream/PycharmProjects/VisualRadio/images/fotka.png'])
 

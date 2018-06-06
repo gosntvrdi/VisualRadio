@@ -18,12 +18,14 @@ def player():
     file = os.path.join(dirname, 'NowOnAir/NowOnAir.txt')
     with open (file, 'rb') as f:
         NowOnAir = f.read()
-#    NowOnAir = open(file).readline()
     NowOnAir = NowOnAir[7:]
+    print (NowOnAir)
     NowOnAirOBS = open((os.path.join(dirname, 'NowOnAirOBS.txt')), 'wb')
     NowOnAirOBS.write(NowOnAir)
-    NowOnAirException = open(file).readline()
+    NowOnAirException = open(file, 'rb').readline()
     NowOnAirException = NowOnAir.split()
+    print (NowOnAir)
+    print (NowOnAirException)
     p = subprocess.Popen(['ps', '-A'], stdout=subprocess.PIPE)
     out, err = p.communicate()
     out = out.decode('utf-8')
@@ -32,9 +34,9 @@ def player():
             pid = int(line.split(None, 1)[0])
             os.kill(pid, signal.SIGKILL)
     if any(x in NowOnAirException for x in exceptions):
-        print('exception')
-        subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', (os.path.join(dirname, 'images/fotka.png'))])
+        subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', 'images/fotka.png'])
     elif any(x in NowOnAirException for x in DJTalk):
+        print ('DJTalk')
         subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', 'rtsp://admin:Yammat.2016@192.168.150.99:554/Streaming/Channels/301'])
     else:
         query_string = urllib.parse.urlencode({"search_query": NowOnAir})
@@ -47,12 +49,11 @@ def player():
         videoPafy = pafy.new(link)
         best = videoPafy.getbestvideo()
         print(best)
-        if all(i >= 720 for i in best.dimensions):
+        if all(i >= 600 for i in best.dimensions):
             videompv = best.url
             subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', videompv])
         else:
             artwork()
             subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', 'images/fotka.png'])
-
 
 
