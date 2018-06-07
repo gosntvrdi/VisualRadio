@@ -16,7 +16,7 @@ def voditelj():
     os.chdir(path)
     fotka = random.choice(os.listdir(path))
     im = Image.open(fotka)
-    im.save(os.path.join(dirname, 'images/fotka.png'))
+    im.save('/home/videostream/PycharmProjects/VisualRadio/images/fotka.png')
     if voditelj == 'Daniel Bilić':
         text = ('S vama su Daniel Bilić i Lucija Čeč')
     else:
@@ -24,7 +24,6 @@ def voditelj():
     upravoSVamaTekst = open((os.path.join(dirname, 'upravoSVama.txt')), 'w')
     upravoSVamaTekst.write(text)
     print (voditelj)
-
 
 
 
