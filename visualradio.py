@@ -1,5 +1,4 @@
 from player import player
-from voditelj import voditelj
 import pyinotify
 import os
 
@@ -10,7 +9,6 @@ file = os.path.join(dirname, 'NowOnAir/NowOnAir.txt')
 class ModHandler(pyinotify.ProcessEvent):
     def process_IN_CLOSE_WRITE(self, evt):
         player()
-        voditelj()
         print('in close_Write')
 
 
