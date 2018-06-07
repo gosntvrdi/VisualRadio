@@ -21,6 +21,7 @@ def player():
     file = os.path.join(dirname, 'NowOnAir/NowOnAir.txt')
     file2 = os.path.join(dirname, 'NowOnAirOBS.txt')
     image = os.path.join(dirname, 'images/fotka.png')
+    imageReklame = os.path.join(dirname, 'images/reklame.jpg')
     NowOnAir = open(file, encoding='utf-8').readline()
     NowOnAir = NowOnAir[7:]
     print (NowOnAir)
@@ -45,7 +46,7 @@ def player():
 
     elif any(x in NowOnAir for x in reklame):
         print('Reklame')
-        subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title','images/reklame.jpg'])
+        subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title',imageReklame])
 
     else:
         query_string = urllib.parse.urlencode({"search_query": NowOnAir})
