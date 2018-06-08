@@ -19,6 +19,8 @@ def voditelj():
     im.save(os.path.join(dirname, 'images/fotka.png'))
     if voditelj == 'Daniel Bilić':
         text = ('S vama su Daniel Bilić i Lucija Čeč')
+    elif voditelj == 'Švec i Peh':
+        text = ('S vama su Švec i Peh')
     else:
         text = 'S vama je ' + voditelj
     upravoSVamaTekst = open((os.path.join(dirname, 'upravoSVama.txt')), 'w')
