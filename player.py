@@ -3,11 +3,11 @@ import pafy
 import urllib.request
 import urllib.parse
 import re
-import os
 import subprocess, signal
 from artwork import artwork
 from voditelj import voditelj
-
+import os, random
+from PIL import Image
 
 
 def player():
@@ -36,7 +36,14 @@ def player():
             os.kill(pid, signal.SIGKILL)
     if any(x in NowOnAir for x in exceptions):
         print ('Emisija, loadam fotku')
-        artwork()
+        path = os.path.join(dirname, 'images/photos/NOVINARI')
+        os.chdir(path)
+        fotka = random.choice(os.listdir(path))
+        try:
+            im = Image.open(fotka)
+        except:
+            im = Image.open('images/NOVINARI/yammat studio_02.jpg')
+        im.save(os.path.join(dirname, 'images/fotka.png'))
         subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', image])
 
     elif any(x in NowOnAir for x in word):
@@ -65,7 +72,7 @@ def player():
             videompv = best.url
             subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', videompv])
         else:
-            artwork()
+            call(['sacad', NowOnAir, '', '1920', 'images/fotka.png'])
             subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', image])
 
 
