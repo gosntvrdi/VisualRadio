@@ -6,8 +6,7 @@ from PIL import Image
 def artwork():
     dirname = os.path.dirname(__file__)
     exceptions = ['VIJESTI', 'Vijesti', 'BUSINESS AS USUAL', 'SELO MOJE MALO', 'Selo moje malo',
-                  'KULTURNI SKALPEL', 'SKOLICA', 'TRANSVERZALA', 'AFTERSHOCK', 'PREGLED', 'RADIOAKTIVITET',
-                  'KURIKULUM', 'LUNAROV', 'GRADSKE', 'BREAKOUT']
+                  'KULTURNI SKALPEL', 'SKOLICA', 'TRANSVERZALA', 'AFTERSHOCK', 'PREGLED', 'RADIOAKTIVITET', 'LUNAROV', 'GRADSKE', 'BREAKOUT']
 
     file = os.path.join(dirname, 'NowOnAir/NowOnAir.txt')
     NowOnAir = open(file).readline()
@@ -24,5 +23,5 @@ def artwork():
             im = Image.open('images/NOVINARI/yammat studio_02.jpg')
         im.save(os.path.join(dirname, 'images/fotka.png'))
     else:
-        call(['sacad', NowOnAir, '', '1920', 'images/fotka.png'])
+        call(['sacad', NowOnAir, '', '1920', '/home/videostream/PycharmProjects/VisualRadio/images/fotka.png'])
 

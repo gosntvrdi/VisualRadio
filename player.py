@@ -16,7 +16,7 @@ def player():
     reklame = ['REKLAME']
     exceptions = ['VIJESTI', 'Vijesti', 'BUSINESS AS USUAL', 'SELO MOJE MALO', 'Selo moje malo',
                   'KULTURNI SKALPEL', 'SKOLICA', 'TRANSVERZALA', 'AFTERSHOCK', 'PREGLED', 'RADIOAKTIVITET', 'KURIKULUM',
-                  'LUNAROV', 'GRADSKE', 'JNGL']
+                  'LUNAROV', 'GRADSKE', 'JNGL', '041']
 
     file = os.path.join(dirname, 'NowOnAir/NowOnAir.txt')
     file2 = os.path.join(dirname, 'NowOnAirOBS.txt')
