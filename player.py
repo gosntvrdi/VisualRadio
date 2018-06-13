@@ -4,6 +4,7 @@ import urllib.request
 import urllib.parse
 import re
 import subprocess, signal
+from subprocess import call
 from artwork import artwork
 from voditelj import voditelj
 import os, random
