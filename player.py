@@ -5,10 +5,10 @@ import urllib.parse
 import re
 import subprocess, signal
 from subprocess import call
-from artwork import artwork
 from voditelj import voditelj
 import os, random
 from PIL import Image
+import fileinput
 
 
 def player():
@@ -28,6 +28,10 @@ def player():
     print (NowOnAir)
     with open (file2, 'w') as f:
         f.write(NowOnAir)
+    with fileinput.Fileinput(file2, inplace=True, backup='NowOnAirOBS.bak') as file:
+        for line in file2:
+            print ('ATE', '', end='')
+
     p = subprocess.Popen(['ps', '-A'], stdout=subprocess.PIPE)
     out, err = p.communicate()
     out = out.decode('utf-8')
@@ -64,17 +68,18 @@ def player():
             link = ('http://www.youtube.com/watch?v=' + search_results[0])
         except IndexError:
             link = ('https://www.youtube.com/watch?v=l6A4qnAX5Gw')
-        videoPafy = pafy.new(link)
+        try:
+            videoPafy = pafy.new(link)
+        except IndexError:
+            videoPafy = pafy.new('https://www.youtube.com/watch?v=l6A4qnAX5Gw')
+
         best = videoPafy.getbestvideo()
-        print(videoPafy.description)
-        print(best)
         if all(i >= 480 for i in best.dimensions) and \
         'TunesToTube' and 'HRT' not in videoPafy.description:
             videompv = best.url
             subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', videompv])
         else:
-            call(['sacad', NowOnAir, '', '1920', 'images/fotka.png'])
+            call(['sacad', NowOnAir, '', '1920', '/home/videostream/PycharmProjects/VisualRadio/images/fotka.png'])
             subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', image])
 
 
-player()
