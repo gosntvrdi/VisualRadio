@@ -8,7 +8,15 @@ from subprocess import call
 from voditelj import voditelj
 import os, random
 from PIL import Image
-import fileinput
+from pykeyboard import PyKeyboard
+import pyautogui
+import time
+
+def animiraniLogo():
+    subprocess.call(["xdotool", "windowactivate", "16777221"])
+    pyautogui.hotkey('alt', '1')
+    time.sleep(14)
+    pyautogui.hotkey('alt', '1')
 
 
 def player():
@@ -17,7 +25,7 @@ def player():
     reklame = ['REKLAME']
     exceptions = ['VIJESTI', 'Vijesti', 'BUSINESS AS USUAL', 'SELO MOJE MALO', 'Selo moje malo',
                   'KULTURNI SKALPEL', 'SKOLICA', 'TRANSVERZALA', 'AFTERSHOCK', 'PREGLED', 'RADIOAKTIVITET', 'KURIKULUM',
-                  'LUNAROV', 'GRADSKE', 'JNGL', '041']
+                  'LUNAROV', 'GRADSKE', 'JNGL', '041', 'TJEDNI']
 
     file = os.path.join(dirname, 'NowOnAir/NowOnAir.txt')
     file2 = os.path.join(dirname, 'NowOnAirOBS.txt')
@@ -25,13 +33,9 @@ def player():
     imageReklame = os.path.join(dirname, 'images/reklame.jpg')
     NowOnAir = open(file, encoding='utf-8').readline()
     NowOnAir = NowOnAir[7:]
-    print (NowOnAir)
-    with open (file2, 'w') as f:
+    print(NowOnAir)
+    with open(file2, 'w') as f:
         f.write(NowOnAir)
-    with fileinput.Fileinput(file2, inplace=True, backup='NowOnAirOBS.bak') as file:
-        for line in file2:
-            print ('ATE', '', end='')
-
     p = subprocess.Popen(['ps', '-A'], stdout=subprocess.PIPE)
     out, err = p.communicate()
     out = out.decode('utf-8')
@@ -40,7 +44,8 @@ def player():
             pid = int(line.split(None, 1)[0])
             os.kill(pid, signal.SIGKILL)
     if any(x in NowOnAir for x in exceptions):
-        print ('Emisija, loadam fotku')
+        print('Emisija, loadam fotku')
+        pyautogui.hotkey('alt', '1')
         path = os.path.join(dirname, 'images/photos/NOVINARI')
         os.chdir(path)
         fotka = random.choice(os.listdir(path))
@@ -52,13 +57,16 @@ def player():
         subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', image])
 
     elif any(x in NowOnAir for x in word):
+        with open(file2, 'w') as f:
+            f.write(' ')
         print('DJTalk, palim kameru')
         voditelj()
-        subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title','rtsp://admin:Yammat.2016@192.168.150.99:554/Streaming/Channels/301'])
+        subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title',
+                          'rtsp://admin:Yammat.2016@192.168.150.99:554/Streaming/Channels/301'])
 
     elif any(x in NowOnAir for x in reklame):
         print('Reklame')
-        subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title',imageReklame])
+        subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', imageReklame])
 
     else:
         query_string = urllib.parse.urlencode({"search_query": NowOnAir})
@@ -75,11 +83,12 @@ def player():
 
         best = videoPafy.getbestvideo()
         if all(i >= 480 for i in best.dimensions) and \
-        'TunesToTube' and 'HRT' not in videoPafy.description:
+                'TunesToTube' and 'HRT' not in videoPafy.description:
             videompv = best.url
             subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', videompv])
         else:
             call(['sacad', NowOnAir, '', '1920', '/home/videostream/PycharmProjects/VisualRadio/images/fotka.png'])
             subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', image])
+    animiraniLogo()
 
-
+player()
