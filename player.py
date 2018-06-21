@@ -8,7 +8,6 @@ from subprocess import call
 from voditelj import voditelj
 import os, random
 from PIL import Image
-from pykeyboard import PyKeyboard
 import pyautogui
 import time
 
@@ -16,6 +15,7 @@ def animiraniLogo():
     subprocess.call(["xdotool", "windowactivate", "16777221"])
     pyautogui.hotkey('alt', '1')
     time.sleep(14)
+    subprocess.call(["xdotool", "windowactivate", "16777221"])
     pyautogui.hotkey('alt', '1')
 
 
@@ -78,7 +78,7 @@ def player():
             link = ('https://www.youtube.com/watch?v=l6A4qnAX5Gw')
         try:
             videoPafy = pafy.new(link)
-        except IndexError:
+        except (IndexError, OSError) as e:
             videoPafy = pafy.new('https://www.youtube.com/watch?v=l6A4qnAX5Gw')
 
         best = videoPafy.getbestvideo()
@@ -91,4 +91,4 @@ def player():
             subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', image])
     animiraniLogo()
 
-player()
+
