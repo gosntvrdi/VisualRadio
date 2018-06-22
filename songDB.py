@@ -31,7 +31,9 @@ def songDB():
     timestamp = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
     conn = mariadb.connect(host='192.168.150.251', user='videostream', database='songsDB')
     cursor = conn.cursor()
-    cursor.execute('INSERT INTO songsDB (songName, youtubeLink, clientID, date) VALUES (%s, %s, %s, %s)', (songDB, youtubeLinkDB, clientID, timestamp))
+    cursor.execute("""INSERT INTO songsDB (songName, youtubeLink, clientID, date) VALUES (%s, %s, %s, %s)
+                   ON DUPLICATE KEY UPDATE date = VALUES(date)""", (songDB, youtubeLinkDB, clientID, timestamp))
     conn.commit()
     conn.close()
 
+songDB()
