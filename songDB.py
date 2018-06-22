@@ -36,4 +36,3 @@ def songDB():
     conn.commit()
     conn.close()
 
-songDB()
