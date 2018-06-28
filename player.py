@@ -84,10 +84,8 @@ def player():
         best = videoPafy.getbestvideo()
         if all(i >= 480 for i in best.dimensions) and \
                 'TunesToTube' and 'HRT' not in videoPafy.description:
-            try:
-                videompv = best.url
-            except AttributeError:
-                subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', videompv])
+            videompv = best.url
+            subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', videompv])
         else:
             call(['sacad', NowOnAir, '', '1920', '/home/videostream/PycharmProjects/VisualRadio/images/fotka.png'])
             subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', image])
