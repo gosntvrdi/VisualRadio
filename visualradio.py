@@ -1,5 +1,4 @@
 from player import player
-from songDB import songDB
 import pyinotify
 import os
 
@@ -10,7 +9,7 @@ file = os.path.join(dirname, 'NowOnAir/NowOnAir.txt')
 class ModHandler(pyinotify.ProcessEvent):
     def process_IN_CLOSE_WRITE(self, evt):
         player()
-        songDB()
+
 
 
 handler = ModHandler()

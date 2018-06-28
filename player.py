@@ -10,13 +10,14 @@ import os, random
 from PIL import Image
 import pyautogui
 import time
+from songDB import songDB
 
 def animiraniLogo():
     subprocess.call(["xdotool", "windowactivate", "16777221"])
     pyautogui.hotkey('alt', '1')
     time.sleep(14)
     subprocess.call(["xdotool", "windowactivate", "16777221"])
-    pyautogui.hotkey('alt', '1')
+    pyautogui.hotkey('alt', '2')
 
 
 def player():
@@ -45,7 +46,6 @@ def player():
             os.kill(pid, signal.SIGKILL)
     if any(x in NowOnAir for x in exceptions):
         print('Emisija, loadam fotku')
-        pyautogui.hotkey('alt', '1')
         path = os.path.join(dirname, 'images/photos/NOVINARI')
         os.chdir(path)
         fotka = random.choice(os.listdir(path))
@@ -84,11 +84,13 @@ def player():
         best = videoPafy.getbestvideo()
         if all(i >= 480 for i in best.dimensions) and \
                 'TunesToTube' and 'HRT' not in videoPafy.description:
-            videompv = best.url
+            try:
+                videompv = best.url
+            except AttributeError:
             subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', videompv])
         else:
             call(['sacad', NowOnAir, '', '1920', '/home/videostream/PycharmProjects/VisualRadio/images/fotka.png'])
             subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', image])
-    animiraniLogo()
-
+        animiraniLogo()
+    songDB()
 
