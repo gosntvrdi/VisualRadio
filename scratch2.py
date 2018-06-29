@@ -1,29 +1,19 @@
-import pafy
-import os
-import subprocess, signal
-import re
-import urllib.request
-import urllib.parse
-from scratch import artwork
+import mysql.connector as mariadb
+import os.path
+import subprocess
 
-artwork()
 dirname = os.path.dirname(__file__)
 file = os.path.join(dirname, 'NowOnAir/NowOnAir.txt')
-with open (file, 'rb') as f:
-    NowOnAir = f.read()
+NowOnAir = open(file, encoding='utf-8').readline()
 NowOnAir = NowOnAir[7:]
-query_string = urllib.parse.urlencode({"search_query": NowOnAir})
-html_content = urllib.request.urlopen("http://www.youtube.com/results?" + query_string)
-search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())
-try:
-    link = ('http://www.youtube.com/watch?v=' + search_results[0])
-except IndexError:
-    link = ('https://www.youtube.com/watch?v=l6A4qnAX5Gw')
-videoPafy = pafy.new(link)
-best = videoPafy.getbestvideo()
-print(best)
-if all(i >= 720 for i in best.dimensions):
-    videompv = best.url
-    subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', videompv])
-else:
-    subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', 'images/fotka.png'])
+conn = mariadb.connect(host='192.168.150.251', user='videostream', database='songsDB')
+cursor = conn.cursor(buffered=True)
+cursor.execute("""SELECT youtubeLink FROM songsDB WHERE songName = ' ' + '%s' """), (NowOnAir)
+#cursor.execute("""SELECT youtubeLink FROM songsDB WHERE songName = 'Disclosure - Ultimatum' """)
+conn.commit()
+youtubeLink = cursor.fetchone()
+youtubeLink = ' '.join(map(str, (youtubeLink)))
+print (youtubeLink)
+vlc_path = 'C:/Program Files/VideoLAN/VLC/vlc.exe'
+subprocess.call([vlc_path, youtubeLink, '--play-and-exit', '--qt-start-minimized'], shell=False)
+
