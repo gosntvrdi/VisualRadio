@@ -10,7 +10,11 @@ import os, random
 from PIL import Image
 import pyautogui
 import time
-from songDB import songDB
+import mysql.connector as mariadb
+
+
+conn = mariadb.connect(host='192.168.150.251', user='videostream', database='songsDB')
+cursor = conn.cursor()
 
 def animiraniLogo():
     subprocess.call(["xdotool", "windowactivate", "16777221"])
@@ -68,6 +72,8 @@ def player():
         print('Reklame')
         subprocess.Popen(['cvlc', '--play-and-exit', '--no-video-title', imageReklame])
 
+    elif:
+        cursor.execute("""SELECT youtubeLink FROM songsDB WHERE songName = '%s' """), (NowOnAir)
     else:
         query_string = urllib.parse.urlencode({"search_query": NowOnAir})
         html_content = urllib.request.urlopen("http://www.youtube.com/results?" + query_string)
