@@ -2,7 +2,7 @@ argh==0.26.2
 beautifulsoup4==4.5.3
 chardet==2.3.0
 chrome-gnome-shell==0.0.0
-cryptography==1.7.1
+cryptography==3.2
 docutils==0.13.1
 enum34==1.1.6
 gpg==1.8.0
