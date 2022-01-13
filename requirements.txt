@@ -16,7 +16,7 @@ mpv==0.1
 numpy==1.12.1
 pafy==0.5.4
 pathtools==0.1.2
-Pillow==5.1.0
+Pillow==9.0.0
 pyasn1==0.1.9
 pycrypto==2.6.1
 pygobject==3.22.0
